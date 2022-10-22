@@ -29,7 +29,7 @@ Teams.init({
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
-// Matches.belongsTo(Teams, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
+// Matches.belongsTo(Matches, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
