@@ -10,7 +10,6 @@ export default class AuthLoginController {
   }
 
   public loginValidade = async (req: Request, res: Response) => {
-    // const { authorization } = req.headers;
     const { email } = req.body;
     const role = await this._authLoginService.loginValidade({ email });
 
