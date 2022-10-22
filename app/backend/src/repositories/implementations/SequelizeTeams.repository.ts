@@ -10,4 +10,11 @@ export default class SequelizeTeamsRepository implements ITeamsRepository {
 
     return teams;
   }
+
+  async findOne(id: number): Promise<ITeams | null> {
+    const team = await this.model.findOne({ where: { id }, raw: true });
+
+    if (!team?.teamName) return null;
+    return team;
+  }
 }
