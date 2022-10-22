@@ -1,8 +1,8 @@
 import 'dotenv/config';
-// import { NextFunction, Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import ITokenConfig, { ITokenPayload } from '../interfaces/IToken';
-// import CustomError from '../Error/customError';
+import CustomError from '../Error/customError';
 
 const secretKey = process.env.JWT_SECRET || 'jwt_secret';
 
@@ -16,20 +16,20 @@ export default class Token {
     return token;
   };
 
-  // authToken = (req: Request, _res:Response, next:NextFunction): void => {
-  //   const { authorization } = req.headers;
-  //   if (!authorization) {
-  //     throw new CustomError('Token not found', 401);
-  //   }
+  static authToken = (req: Request, _res:Response, next:NextFunction): void => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      throw new CustomError('Token not found', 401);
+    }
 
-  //   try {
-  //     const verificaToken = jwt.verify(authorization, secretKey);
+    try {
+      const verificaToken = jwt.verify(authorization, secretKey);
 
-  //     req.user = verificaToken as jwt.JwtPayload;
+      req.body = verificaToken as ITokenPayload;
 
-  //     next();
-  //   } catch (error) {
-  //     throw new CustomError('Invalid token', 401);
-  //   }
-  // };
+      next();
+    } catch (error) {
+      throw new CustomError('Invalid token', 401);
+    }
+  };
 }

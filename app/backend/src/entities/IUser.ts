@@ -3,11 +3,16 @@ export interface IUserID {
 }
 
 export interface IUserUsername {
-  username: string
+  username: string;
+  role: string;
 }
 
-export interface IUserLogin {
+export interface IUserEmail {
   email: string;
+}
+
+export interface IUserLogin extends IUserEmail {
+
   password: string;
 }
 

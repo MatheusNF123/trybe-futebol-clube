@@ -1,4 +1,5 @@
 // import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import CustomError from '../../../Error/customError';
 import { IUserLogin } from '../../../entities/IUser';
 import IUsersRepository from '../../../repositories/implementations/SequelizeUsers.repository';
@@ -13,11 +14,13 @@ export default class MakeLoginService {
   }
 
   public login = async ({ email, password }: IUserLogin) => {
-    const user = await this._usersRepository.findByEmail({ email, password });
+    const user = await this._usersRepository.findByEmail({ email });
     if (!user) throw new CustomError('Incorrect email or password', 401);
 
-    // const passwordIsValid = await bcrypt.compare(password, user.password);
-    // if (!passwordIsValid) throw new CustomError('Incorrect email or password', 401);
+    const passwordIsValid = await bcrypt.compare(password, user.password);
+    console.log(passwordIsValid);
+
+    if (!passwordIsValid) throw new CustomError('Incorrect email or password', 401);
 
     const token = Token.generateToken({ email });
 
