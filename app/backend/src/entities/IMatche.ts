@@ -8,6 +8,12 @@ export interface IMatchesTeam {
   inProgress: boolean;
 }
 
+export interface ImatchesGoalsMatches {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+  id: number;
+}
+
 export default interface IMatches extends IMatchesTeam {
   id: number;
   inProgress: boolean;

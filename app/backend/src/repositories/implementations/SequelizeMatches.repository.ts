@@ -1,4 +1,4 @@
-import IMatches, { IMatchesTeam } from '../../entities/IMatche';
+import IMatches, { ImatchesGoalsMatches, IMatchesTeam } from '../../entities/IMatche';
 import MatchesModel from '../../database/models/Matches';
 import IMatchesRepository from '../IMatches.repository';
 import Teams from '../../database/models/Teams';
@@ -36,5 +36,9 @@ export default class SequelizeMatchesRepository implements IMatchesRepository {
 
   async update(id: number): Promise<void> {
     await this.model.update({ inProgress: false }, { where: { id } });
+  }
+
+  async updateGoals({ homeTeamGoals, awayTeamGoals, id }: ImatchesGoalsMatches): Promise<void> {
+    this.model.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
   }
 }
