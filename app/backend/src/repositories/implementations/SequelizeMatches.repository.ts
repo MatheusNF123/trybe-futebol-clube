@@ -1,4 +1,4 @@
-import IMatches from '../../entities/IMatche';
+import IMatches, { IMatchesTeam } from '../../entities/IMatche';
 import MatchesModel from '../../database/models/Matches';
 import IMatchesRepository from '../IMatches.repository';
 import Teams from '../../database/models/Teams';
@@ -26,5 +26,11 @@ export default class SequelizeMatchesRepository implements IMatchesRepository {
       where: { inProgress: query },
     });
     return matches;
+  }
+
+  async create(value: IMatchesTeam): Promise<IMatches> {
+    const matche = await this.model.create(value);
+
+    return matche;
   }
 }

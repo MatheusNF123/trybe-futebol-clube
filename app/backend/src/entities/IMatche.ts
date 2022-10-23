@@ -1,11 +1,15 @@
 // import ITeamsName from './ITeams';
 
-export default interface IMatches {
-  id: number;
+export interface IMatchesTeam {
   homeTeam: number;
   homeTeamGoals: number;
   awayTeam: number;
   awayTeamGoals: number;
+  inProgress: boolean;
+}
+
+export default interface IMatches extends IMatchesTeam {
+  id: number;
   inProgress: boolean;
 
 }
