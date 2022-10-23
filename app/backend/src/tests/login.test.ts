@@ -11,27 +11,12 @@ import MakeLoginService from '../useCases/userUseCase/makeLogin/makeLogin.servic
 import Token from '../helpers/GenerateToken';
 
 import { Response } from 'superagent';
-
+import mockLogin, {mockUser, mockToken} from './mocks/mockLogin';
 const repositoryLogin = new SequelizeUserRepository()
 const makeLoginService = new MakeLoginService(repositoryLogin);
 
 
-const mockLogin = {
-  email: 'admin@admin.com',
-  password: 'secret_admin'
-}
 
-const mockUser: IUser = {
-  id: 1,
-  username: 'admin',
-  email: 'admin@admin.com',
-  password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
-  role: 'admin'
-}
-
-const mockToken = {
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTY2NjQ1NzAyMCwiZXhwIjoxNjY2NTI5MDIwfQ.X4dCRkUds61AjJn-OZBEuD_TlXxttQ2IBGR-Unju154'
-}
 
 chai.use(chaiHttp);
 

@@ -9,8 +9,6 @@ export default class UpdateGoalsMatchesController {
   }
 
   updateGoals = async (req: Request, res: Response) => {
-    console.log('aqui');
-
     const { homeTeamGoals, awayTeamGoals } = req.body;
     const id = Number(req.params.id);
     await this._updateGoalsMatchesService.updateGoals({ homeTeamGoals, awayTeamGoals, id });
