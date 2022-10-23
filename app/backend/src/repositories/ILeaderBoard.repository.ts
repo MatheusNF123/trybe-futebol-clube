@@ -1,5 +1,6 @@
 import ILeaderBoard from '../entities/ILeaderBoard';
 
 export default interface ILeaderBoardRepository {
-  findAll(): Promise<ILeaderBoard[]>
+  findAllHome(): Promise<ILeaderBoard[]>
+  findAllAway(): Promise<ILeaderBoard[]>
 }
