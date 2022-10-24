@@ -11,7 +11,7 @@ import MakeLoginService from '../useCases/userUseCase/makeLogin/makeLogin.servic
 import Token from '../helpers/GenerateToken';
 
 import { Response } from 'superagent';
-import mockLogin, {mockUser, mockToken} from './mocks/mockLogin';
+import mockLogin, {mockUser, mockToken, mockUserNormal} from './mocks/mockLogin';
 const repositoryLogin = new SequelizeUserRepository()
 const makeLoginService = new MakeLoginService(repositoryLogin);
 
@@ -75,6 +75,55 @@ describe('Teste da rota post /Login', () => {
       expect(httpResponse.body).to.deep.equal({message: 'All fields must be filled'});
       
     })   
+  })
+});
+describe('Teste da rota get /Login/validate', () => {
+  describe("quando a requisição e feita com sucesso", () => {
+    afterEach(function () {
+      sinon.restore();
+    });
+    it('deve retornar um status 200', async () => {
+      sinon.stub(User, "findOne").resolves( mockUser as User );  
+      const httpResponseToken = await chai.request(app).post("/login").send(mockLogin)
+      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token) ;
+      expect(httpResponse.status).to.be.equal(200);
+    })
+    it('deve retornar a role correta "admin"', async () => {
+      sinon.stub(User, "findOne").resolves( mockUser as User );  
+      const httpResponseToken = await chai.request(app).post("/login").send(mockLogin)
+      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token) ;
+     
+      expect(httpResponse.body).to.deep.equal({ role: "admin" });
+    })
+    it('deve retornar a rola correta "user', async () => {
+      sinon.stub(User, "findOne").resolves( mockUserNormal as User );  
+      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
+      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);     
+      expect(httpResponse.body).to.deep.equal({ role: "user" });
+    })
+   
+  })
+  describe("quando a requisição sem sucesso", () => {  
+    afterEach(function () {
+      sinon.restore();
+    });
+
+    it('deve retornar um status 401 ', async () => {
+      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
+      sinon.stub(User, "findOne").resolves( null );
+      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);
+      expect(httpResponse.status).to.be.equal(401);
+      
+    })   
+    it('deve retornar uma mensagem "User not found" ', async () => {
+      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
+      sinon.stub(User, "findOne").resolves( null );
+      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);
+      expect(httpResponse.body).to.deep.equal({message: "User not found"});
+
+      
+    })   
+     
   })
 });
 

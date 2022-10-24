@@ -1,5 +1,6 @@
 // import * as bcrypt from 'bcryptjs';
 
+import CustomError from '../../../Error/customError';
 import { IUserEmail } from '../../../entities/IUser';
 import IUsersRepository from '../../../repositories/implementations/SequelizeUsers.repository';
 
@@ -15,6 +16,7 @@ export default class AuthLoginService {
   public loginValidade = async ({ email }: IUserEmail) => {
     const user = await this._usersRepository.findByEmail({ email });
 
-    return user?.role;
+    if (!user) throw new CustomError('User not found', 401);
+    return user.role;
   };
 }
