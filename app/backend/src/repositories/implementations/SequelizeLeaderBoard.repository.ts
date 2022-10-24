@@ -21,6 +21,7 @@ export default class SequelizeLeaderBoardRepository implements ILeaderBoardRepos
   async findAll() : Promise<ILeaderBoard[]> {
     const leaderBoardHome: ILeaderBoard[] = await this.findAllHome();
     const leaderBoardAway: ILeaderBoard[] = await this.findAllAway();
+
     const loaderBoard = leaderBoardAway.map((el) => {
       const obj = leaderBoardHome.find((away) => away.name === el.name);
       if (obj) {
