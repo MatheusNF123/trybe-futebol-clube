@@ -94,9 +94,25 @@ const mockGoalsMatches = {
   awayTeamGoals: 1
 }
 
+
+const mockTeamHomeErrorTeam = {
+  homeTeam: 9999,
+  awayTeam: 8, 
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+}
+const mockTeamAwayErrorTeam = {
+  homeTeam: 9999,
+  awayTeam: 8, 
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+}
+
 export { mockTeamsInProgressTrue,
   mockInsertMatches,
   mockResultInsertMatches,
   mockErrorPostMatches,
-  mockGoalsMatches
+  mockGoalsMatches,
+  mockTeamHomeErrorTeam,
+  mockTeamAwayErrorTeam
 }

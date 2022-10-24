@@ -95,7 +95,7 @@ describe('Teste da rota get /Login/validate', () => {
      
       expect(httpResponse.body).to.deep.equal({ role: "admin" });
     })
-    it('deve retornar a rola correta "user', async () => {
+    it('deve retornar a role correta "user', async () => {
       sinon.stub(User, "findOne").resolves( mockUserNormal as User );  
       const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
       const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);     
@@ -120,7 +120,13 @@ describe('Teste da rota get /Login/validate', () => {
       sinon.stub(User, "findOne").resolves( null );
       const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);
       expect(httpResponse.body).to.deep.equal({message: "User not found"});
-
+      
+    })   
+    it('deve retornar uma mensagem "Token must be a valid token" caso o token nao for passado', async () => {
+      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
+      sinon.stub(User, "findOne").resolves( null );
+      const httpResponse = await chai.request(app).get("/login/validate").send();
+      expect(httpResponse.body).to.deep.equal({message: "Token must be a valid token"});
       
     })   
      
@@ -128,32 +134,3 @@ describe('Teste da rota get /Login/validate', () => {
 });
 
 
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-  // it('Seu sub-teste', () => {
-  //   expect(false).to.be.eq(true);
-  // });

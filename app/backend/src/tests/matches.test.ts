@@ -9,7 +9,8 @@ import { app } from '../app';
 import { Response } from 'superagent';
 import Matches from '../database/models/Matches';
 import mockAllTeam, {mockTeamsInProgressTrue,  mockInsertMatches,
-  mockResultInsertMatches, mockErrorPostMatches, mockGoalsMatches} from './mocks/mockMatches'
+  mockResultInsertMatches, mockErrorPostMatches, mockGoalsMatches, mockTeamHomeErrorTeam,
+  mockTeamAwayErrorTeam} from './mocks/mockMatches'
 import Token from '../helpers/GenerateToken';
 import mockLogin from './mocks/mockLogin';
 
@@ -110,6 +111,18 @@ const { expect } = chai;
     it('deve retornar uma mensagem "Token must be a valid token"  ao passar um token invalido', async () => {
       const httpResponse = await chai.request(app).post("/matches").send(mockErrorPostMatches).set('Authorization', 'tokenInvalido')
       expect(httpResponse.body).to.deep.equal({message: "Token must be a valid token" });
+    })   
+    it('deve retornar um status 404 ao passar um time que não existe', async () => {
+      sinon.stub(Matches, "findAll").resolves( mockAllTeam as Matches[] ); 
+      const httpResponseToken = await chai.request(app).post("/login").send(mockLogin)
+      const httpResponse = await chai.request(app).post("/matches").send(mockTeamHomeErrorTeam).set('Authorization', httpResponseToken.body.token)
+      expect(httpResponse.status).to.be.equal(404);
+    })   
+    it('deve retornar uma mensagem "There is no team with such id!" ao passar um time que não existe ', async () => {
+      sinon.stub(Matches, "findAll").resolves( mockAllTeam as Matches[] ); 
+      const httpResponseToken = await chai.request(app).post("/login").send(mockLogin)
+      const httpResponse = await chai.request(app).post("/matches").send(mockTeamHomeErrorTeam).set('Authorization', httpResponseToken.body.token)
+      expect(httpResponse.body).to.deep.equal({message: "There is no team with such id!" });
     })   
   })  
 });

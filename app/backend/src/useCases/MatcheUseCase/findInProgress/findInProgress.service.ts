@@ -1,10 +1,9 @@
-import SequelizeMatchesRepository from
-  '../../../repositories/implementations/SequelizeMatches.repository';
+import IMatchesRepository from '../../../repositories/IMatches.repository';
 
 export default class FindInProgressService {
-  private _matcheRepository: SequelizeMatchesRepository;
+  private _matcheRepository: IMatchesRepository;
 
-  constructor(matcheRpository: SequelizeMatchesRepository) {
+  constructor(matcheRpository: IMatchesRepository) {
     this._matcheRepository = matcheRpository;
   }
 

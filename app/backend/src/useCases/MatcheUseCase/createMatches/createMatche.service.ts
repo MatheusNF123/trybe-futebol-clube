@@ -1,13 +1,12 @@
 import CustomError from '../../../Error/customError';
 import { IMatchesTeam } from '../../../entities/IMatche';
-import SequelizeMatchesRepository from
-  '../../../repositories/implementations/SequelizeMatches.repository';
 import Teams from '../../../database/models/Teams';
+import IMatchesRepository from '../../../repositories/IMatches.repository';
 
 export default class CreateMatcheService {
-  private _matcheRepository: SequelizeMatchesRepository;
+  private _matcheRepository: IMatchesRepository;
 
-  constructor(matcheRepository: SequelizeMatchesRepository) {
+  constructor(matcheRepository: IMatchesRepository) {
     this._matcheRepository = matcheRepository;
   }
 

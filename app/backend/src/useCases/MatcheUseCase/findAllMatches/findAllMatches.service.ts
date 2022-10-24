@@ -1,10 +1,9 @@
-import SequelizeMatchesRepository from
-  '../../../repositories/implementations/SequelizeMatches.repository';
+import IMatchesRepository from '../../../repositories/IMatches.repository';
 
 export default class FindAllMatchesService {
-  private _matchesRepository: SequelizeMatchesRepository;
+  private _matchesRepository: IMatchesRepository;
 
-  constructor(matchesRepository: SequelizeMatchesRepository) {
+  constructor(matchesRepository: IMatchesRepository) {
     this._matchesRepository = matchesRepository;
   }
 

@@ -1,10 +1,9 @@
-import SequelizeLeaderBoardRepository from
-  '../../../repositories/implementations/SequelizeLeaderBoard.repository';
+import ILeaderBoardRepository from '../../../repositories/ILeaderBoard.repository';
 
 export default class FindAllClassificationHomeService {
-  private _leaderBoardRepository: SequelizeLeaderBoardRepository;
+  private _leaderBoardRepository: ILeaderBoardRepository;
 
-  constructor(leaderBoardRepository: SequelizeLeaderBoardRepository) {
+  constructor(leaderBoardRepository: ILeaderBoardRepository) {
     this._leaderBoardRepository = leaderBoardRepository;
   }
 

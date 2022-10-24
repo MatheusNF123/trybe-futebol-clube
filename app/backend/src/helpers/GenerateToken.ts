@@ -5,7 +5,7 @@ import ITokenConfig, { ITokenPayload } from '../interfaces/IToken';
 import CustomError from '../Error/customError';
 // import RequestUser from '../interfaces/IRequest';
 
-const secretKey = process.env.JWT_SECRET || 'jwt_secret';
+const secretKey = process.env.JWT_SECRET as string;
 
 export default class Token {
   static generateToken = (payload: ITokenPayload): string => {
