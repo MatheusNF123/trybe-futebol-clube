@@ -446,10 +446,4 @@ const mockCaseGoalsBalance = [
 export default mockLeaderBoardHome
 
 export {mockLeaderBoardAway,
-   mockLeaderBoardAll, 
-   mockTeamTotalPOint,
-    mockHomeTotalPointEqual,
-     mockAwayTotalPointEqual,
-     mockCaseGoalsBalance,
-     mockTeamHomeCaseGoalsOn,
-     mockTeamAwayCaseGoalsOn}
+   mockLeaderBoardAll}

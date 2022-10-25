@@ -1,7 +1,7 @@
 import ILeaderBoard from '../../entities/ILeaderBoard';
 import ILeaderBoardRepository from '../ILeaderBoard.repository';
 import sequelize from '../../database/models';
-import queryHome, { queryAway } from '../../utils/querySequelize';
+import queryHome, { queryAway, SumHomeAway } from '../../utils/querySequelize';
 
 export default class SequelizeLeaderBoardRepository implements ILeaderBoardRepository {
   private _sequelize = sequelize;
@@ -19,41 +19,26 @@ export default class SequelizeLeaderBoardRepository implements ILeaderBoardRepos
   }
 
   async findAll() : Promise<ILeaderBoard[]> {
-    const leaderBoardHome: ILeaderBoard[] = await this.findAllHome();
-    const leaderBoardAway: ILeaderBoard[] = await this.findAllAway();
+    const [,allLeaderBoard] = await this._sequelize.query(SumHomeAway);
 
-    const loaderBoard = leaderBoardAway.map((el) => {
-      const obj = leaderBoardHome.find((away) => away.name === el.name);
-      if (obj) {
-        return SequelizeLeaderBoardRepository.objectFabric(obj, el);
-      }
-      return el;
-    });
-    loaderBoard.sort((a, b) => {
-      if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
-      if (b.goalsBalance !== a.goalsBalance) return b.goalsBalance - a.goalsBalance;
-      if (b.goalsFavor !== a.goalsFavor) return b.goalsFavor - a.goalsFavor;
-      return b.goalsOwn - a.goalsOwn;
-    });
-
-    return loaderBoard as ILeaderBoard[];
+    return allLeaderBoard as ILeaderBoard[];
   }
 
-  static objectFabric = (home: ILeaderBoard, away: ILeaderBoard) => {
-    const totalPoints = +home.totalPoints + +away.totalPoints;
-    const totalGames = +home.totalGames + +away.totalGames;
-    const newObject = {
-      name: home.name,
-      totalPoints: +home.totalPoints + +away.totalPoints,
-      totalGames: +home.totalGames + +away.totalGames,
-      totalVictories: +home.totalVictories + +away.totalVictories,
-      totalDraws: +home.totalDraws + +away.totalDraws,
-      totalLosses: +home.totalLosses + +away.totalLosses,
-      goalsFavor: +home.goalsFavor + +away.goalsFavor,
-      goalsOwn: +home.goalsOwn + +away.goalsOwn,
-      goalsBalance: +home.goalsBalance + +away.goalsBalance,
-      efficiency: ((totalPoints / (totalGames * 3)) * 100).toFixed(2),
-    };
-    return newObject;
-  };
+  // static objectFabric = (home: ILeaderBoard, away: ILeaderBoard) => {
+  //   const totalPoints = +home.totalPoints + +away.totalPoints;
+  //   const totalGames = +home.totalGames + +away.totalGames;
+  //   const newObject = {
+  //     name: home.name,
+  //     totalPoints: +home.totalPoints + +away.totalPoints,
+  //     totalGames: +home.totalGames + +away.totalGames,
+  //     totalVictories: +home.totalVictories + +away.totalVictories,
+  //     totalDraws: +home.totalDraws + +away.totalDraws,
+  //     totalLosses: +home.totalLosses + +away.totalLosses,
+  //     goalsFavor: +home.goalsFavor + +away.goalsFavor,
+  //     goalsOwn: +home.goalsOwn + +away.goalsOwn,
+  //     goalsBalance: +home.goalsBalance + +away.goalsBalance,
+  //     efficiency: ((totalPoints / (totalGames * 3)) * 100).toFixed(2),
+  //   };
+  //   return newObject;
+  // };
 }

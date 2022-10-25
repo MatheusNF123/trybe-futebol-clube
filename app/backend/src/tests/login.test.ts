@@ -126,9 +126,9 @@ describe('Teste da rota get /Login/validate', () => {
       const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
       sinon.stub(User, "findOne").resolves( null );
       const httpResponse = await chai.request(app).get("/login/validate").send();
-      expect(httpResponse.body).to.deep.equal({message: "Token must be a valid token"});
-      
+      expect(httpResponse.body).to.deep.equal({message: "Token must be a valid token"});      
     })   
+  
      
   })
 });

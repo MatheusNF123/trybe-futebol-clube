@@ -18,7 +18,6 @@ export default class MakeLoginService {
     if (!user) throw new CustomError('Incorrect email or password', 401);
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
-    console.log(passwordIsValid);
 
     if (!passwordIsValid) throw new CustomError('Incorrect email or password', 401);
 
