@@ -7,7 +7,7 @@ export default class FindInProgressService {
     this._matcheRepository = matcheRpository;
   }
 
-  async findInProgress(query: string | undefined) {
+  async findInProgress(query: string) {
     const matches = await this._matcheRepository.findQuery(query === 'true');
 
     return matches;

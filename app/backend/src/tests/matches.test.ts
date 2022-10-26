@@ -1,4 +1,3 @@
-import { ITeams } from './../entities/ITeams';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
@@ -9,8 +8,7 @@ import { app } from '../app';
 import { Response } from 'superagent';
 import Matches from '../database/models/Matches';
 import mockAllTeam, {mockTeamsInProgressTrue,  mockInsertMatches,
-  mockResultInsertMatches, mockErrorPostMatches, mockGoalsMatches, mockTeamHomeErrorTeam,
-  mockTeamAwayErrorTeam} from './mocks/mockMatches'
+  mockResultInsertMatches, mockErrorPostMatches, mockGoalsMatches, mockTeamHomeErrorTeam} from './mocks/mockMatches'
 import Token from '../helpers/GenerateToken';
 import mockLogin from './mocks/mockLogin';
 

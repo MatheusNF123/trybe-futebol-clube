@@ -18,7 +18,6 @@ export default class Token {
   };
 
   static authToken = (req: Request, _res:Response, next:NextFunction): void => {
-    // const request = req as RequestUser;
     const { authorization } = req.headers;
     if (!authorization) {
       throw new CustomError('Token must be a valid token', 401);
@@ -31,7 +30,6 @@ export default class Token {
 
       next();
     } catch (error) {
-      // const err = { status: 401, message: 'invalid token' };
       throw new CustomError('Token must be a valid token', 401);
     }
   };

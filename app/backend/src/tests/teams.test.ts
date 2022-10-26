@@ -5,92 +5,9 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-
-
-import SequelizeTeamsRepository from '../repositories/implementations/SequelizeTeams.repository';
-import FindOneTeamService from '../useCases/TeamUseCase/findOneTeam/findOneTeam.service';
-import FindOneTeamController from '../useCases/TeamUseCase/findOneTeam/findOneTeam.controller';
-const repositoryTeams = new SequelizeTeamsRepository()
-const findOneTeamService = new FindOneTeamService(repositoryTeams)
-const findOneTeamController = new FindOneTeamController(findOneTeamService)
 import { Response } from 'superagent';
 import Teams from '../database/models/Teams';
-
-
-
-const mockTeams: ITeams[] =  [
-  {
-    id: 1,
-    teamName: 'Avaí/Kindermann',
-  },
-  {
-    id: 2,
-    teamName: 'Bahia',
-  },
-  {
-    id: 3,
-    teamName: 'Botafogo',
-  },
-  {
-    id: 4,
-    teamName: 'Corinthians',
-  },
-  {
-    id: 5,
-    teamName: 'Cruzeiro',
-  },
-  {
-    id: 6,
-    teamName: 'Ferroviária',
-  },
-  {
-    id: 7,
-    teamName: 'Flamengo',
-  },
-  {
-    id: 8,
-    teamName: 'Grêmio',
-  },
-  {
-    id: 9,
-    teamName: 'Internacional',
-  },
-  {
-    id: 10,
-    teamName: 'Minas Brasília',
-  },
-  {
-    id: 11,
-    teamName: 'Napoli-SC',
-  },
-  {
-    id: 12,
-    teamName: 'Palmeiras',
-  },
-  {
-    id: 13,
-    teamName: 'Real Brasília',
-  },
-  {
-    id: 14,
-    teamName: 'Santos',
-  },
-  {
-    id: 15,
-    teamName: 'São José-SP',
-  },
-  {
-    id: 16,
-    teamName: 'São Paulo',
-  },
-]
-
-const mockOneTeam = {  
-    id: 1,
-    teamName: 'Avaí/Kindermann'  
-}
-
-
+import { mockTeams, mockOneTeam } from './mocks/mockTeams';
 
 chai.use(chaiHttp);
 
@@ -150,32 +67,4 @@ describe('Teste da rota get /Teams/:id', () => {
 });
 
 
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
 
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-  // it('Seu sub-teste', () => {
-  //   expect(false).to.be.eq(true);
-  // });

@@ -5,7 +5,6 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import User from '../database/models/User';
-import IUser from '../entities/IUser'
 import SequelizeUserRepository from '../repositories/implementations/SequelizeUsers.repository';
 import MakeLoginService from '../useCases/userUseCase/makeLogin/makeLogin.service';
 import Token from '../helpers/GenerateToken';
@@ -63,18 +62,22 @@ describe('Teste da rota post /Login', () => {
       expect(httpResponse.body).to.deep.equal({message: 'Incorrect email or password'});
       
     })   
-    it('deve retornar a mensagem  All fields must be filled sem o campo password informado', async () => {
-      // sinon.stub(User, "findOne").resolves( mockUser as User );  
+    it('deve retornar a mensagem  All fields must be filled sem o campo password informado', async () => { 
       const httpResponse = await chai.request(app).post("/login").send({email: "admin@admin.com"});
       expect(httpResponse.body).to.deep.equal({message: 'All fields must be filled'});
       
     })   
     it('deve retornar a mensagem  All fields must be filled sem o campo email informado', async () => {
-      // sinon.stub(User, "findOne").resolves( mockUser as User );  
       const httpResponse = await chai.request(app).post("/login").send({password: 'sasdasdd'});
       expect(httpResponse.body).to.deep.equal({message: 'All fields must be filled'});
       
     })   
+
+    it('deve retornar status 500', async () => {
+      sinon.stub(User, "findOne").rejects( mockUserNormal as User );  
+      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})          
+      expect(httpResponseToken.status).to.be.equal(500);
+    })
   })
 });
 describe('Teste da rota get /Login/validate', () => {
@@ -102,26 +105,13 @@ describe('Teste da rota get /Login/validate', () => {
       expect(httpResponse.body).to.deep.equal({ role: "user" });
     })
    
+   
   })
   describe("quando a requisição sem sucesso", () => {  
     afterEach(function () {
       sinon.restore();
     });
-
-    it('deve retornar um status 401 ', async () => {
-      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
-      sinon.stub(User, "findOne").resolves( null );
-      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);
-      expect(httpResponse.status).to.be.equal(401);
-      
-    })   
-    it('deve retornar uma mensagem "User not found" ', async () => {
-      const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
-      sinon.stub(User, "findOne").resolves( null );
-      const httpResponse = await chai.request(app).get("/login/validate").send().set('Authorization', httpResponseToken.body.token);
-      expect(httpResponse.body).to.deep.equal({message: "User not found"});
-      
-    })   
+ 
     it('deve retornar uma mensagem "Token must be a valid token" caso o token nao for passado', async () => {
       const httpResponseToken = await chai.request(app).post("/login").send({email: 'user@user.com', password: 'secret_user'})
       sinon.stub(User, "findOne").resolves( null );

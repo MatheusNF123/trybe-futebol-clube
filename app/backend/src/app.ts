@@ -1,7 +1,8 @@
 import * as express from 'express';
-import errorMidleware from './middlewares/errorMiddleware';
+// import errorMidleware from './middlewares/errorMiddleware';
 import routers from './routes';
 import 'express-async-errors';
+import MiddleError from './middlewares/errorMiddleware';
 
 class App {
   public app: express.Express;
@@ -15,7 +16,7 @@ class App {
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.router(this.app);
-    this.app.use(errorMidleware);
+    this.app.use(MiddleError.errorMidleware);
   }
 
   private config():void {

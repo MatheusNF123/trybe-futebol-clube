@@ -4,7 +4,6 @@ import CustomError from '../../../Error/customError';
 import { IUserLogin } from '../../../entities/IUser';
 import IUsersRepository from '../../../repositories/implementations/SequelizeUsers.repository';
 import Token from '../../../helpers/GenerateToken';
-// import Token from '../../../helpers/GenerateToken';
 
 export default class MakeLoginService {
   private _usersRepository: IUsersRepository;
@@ -21,7 +20,7 @@ export default class MakeLoginService {
 
     if (!passwordIsValid) throw new CustomError('Incorrect email or password', 401);
 
-    const token = Token.generateToken({ email });
+    const token = Token.generateToken({ email, role: user.role });
 
     return token;
   };
