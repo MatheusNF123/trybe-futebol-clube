@@ -10,7 +10,7 @@ O TFC é um site informativo sobre partidas e classificações de futebol!
 Clone o repositório:
 
 ```
-git clone git@github.com:jpoliveiramateus/trybe-futebol-clube.git
+git clone git@github.com:MatheusNF123/trybe-futebol-clube.git
 cd trybe-futebol-clube
 npm install
 ```
